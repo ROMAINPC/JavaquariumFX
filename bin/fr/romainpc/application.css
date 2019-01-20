@@ -1,0 +1,21 @@
+.scroll-pane {
+   -fx-background-color: black;
+   -fx-border-color: darkcyan;
+   -fx-border-width: 5 ; 
+}
+.scroll-pane > .viewport {
+   -fx-background-color: black;
+}
+.scroll-bar > .thumb{
+	-fx-background-color: cyan;
+}
+.scroll-bar{
+	-fx-background-color: black;
+}
+.scroll-bar > .track{
+	-fx-background-color: black;
+}
+.corner{
+	-fx-background-color: black;
+}
+
