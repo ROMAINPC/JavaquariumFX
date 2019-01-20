@@ -1,4 +1,4 @@
-#JavaquariumFX
+# JavaquariumFX
 
 ------------
 
@@ -10,4 +10,4 @@ Objectif du JavaquariumFX -> le Javaquarium mais avec interface graphique JavaFX
 ![](src/icone.png)
 
 
-### Vidéos expliquatives :
+### VidÃ©os expliquatives :
