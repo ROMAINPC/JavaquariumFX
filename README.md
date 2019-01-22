@@ -11,3 +11,4 @@ Objectif du JavaquariumFX -> le Javaquarium mais avec interface graphique JavaFX
 
 
 ### Vidéos expliquatives :
+* Part 1 (GUI): https://youtu.be/mF0fmUc3ow0
