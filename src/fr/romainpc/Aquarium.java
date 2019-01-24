@@ -68,8 +68,13 @@ public class Aquarium extends Group{
 		
 		
 		//ajout des poissons:
-		for(int i =0 ; i < 10;i++)
-			ajouterPoisson();
+		
+		ajouterPoisson("Bernard", Genre.MALE);
+		ajouterPoisson("Jean", Genre.MALE);
+		ajouterPoisson("Yvone", Genre.FEMELLE);
+		ajouterPoisson("Melodie", Genre.FEMELLE);
+		ajouterPoisson("Baptiste", Genre.MALE);
+		ajouterPoisson("Johnson", Genre.MALE);
 		for(int i =0 ; i < 10;i++)
 			ajouterAlgue();
 		
@@ -85,8 +90,21 @@ public class Aquarium extends Group{
 				while(execution && !(poissonList.isEmpty() && algueList.isEmpty())) {
 					
 					
+					
+					
+					
+					
 					aqua.passer();
 					
+					
+					//affichage fin de tour:
+					
+					console.afficher("A la fin du tour " + (tour-1), Color.CYAN);
+					console.afficher("Il reste :", Color.CYAN);
+					console.afficher(algueList.size() + " Algues,", Color.GREEN);
+					console.afficher("et " + poissonList.size() + " Poissons :", Color.GREEN);
+					for(int i = 0 ; i < poissonList.size() ; i++)
+						console.afficher(poissonList.get(i).toString(), Color.GREEN);
 				}
 				
 				console.afficher("====< Fin de la simulation >====", Color.ORANGERED);
@@ -111,7 +129,7 @@ public class Aquarium extends Group{
 		console.afficher("Début déplacement", Color.YELLOW);
 		
 		
-		poissonViewList.get((int) tour%10).goTo(0,0); threadPause();
+		poissonViewList.get((int) tour%poissonList.size()).goTo(0,0); threadPause();
 		
 		
 		console.afficher("retour à la normale", Color.YELLOW);
@@ -145,8 +163,8 @@ public class Aquarium extends Group{
 	
 	
 	
-	private void ajouterPoisson() {
-		Poisson p = new Poisson();
+	private void ajouterPoisson(String nom, Genre sexe) {
+		Poisson p = new Poisson(nom, sexe);
 		PoissonView pV = new PoissonView(p);
 		//random.nextInt((max - min) + 1) + min;
 		int n = random.nextInt((this.getChildren().size() - 1) + 1) + 1;

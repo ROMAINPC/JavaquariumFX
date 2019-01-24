@@ -23,20 +23,43 @@ import javafx.scene.image.Image;
 public class Poisson {
 	
 	private Image img;
+	private String nom;
+	private Genre sexe;
 	
-	public Poisson() {
-		img = new Image("poisson.png");
-		
+	public Poisson(String nom, Genre sexe) {
+		this.img = new Image("poisson.png");
+		this.nom = nom;
+		this.sexe = sexe;
 	}
 
 	public Image getImage() {
 		return img;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public String getNom() {
+		return nom;
+	}
+
+
+	public Genre getGenre() {
+		return sexe;
+	}
 
 	
-	
-	
-	
+	public String toString() {
+		
+		return nom + " : " + sexe;
+		
+	}
 	
 	
 	
