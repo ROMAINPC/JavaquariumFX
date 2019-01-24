@@ -82,31 +82,24 @@ public class Aquarium extends Group{
 			@Override
 			public void run() {
 				
-				while(execution) {
+				while(execution && !(poissonList.isEmpty() && algueList.isEmpty())) {
 					
 					
 					aqua.passer();
 					
 				}
+				
+				console.afficher("====< Fin de la simulation >====", Color.ORANGERED);
+				
 			}
 		});
 		boucle.start();
-		
-		/*
-		this.setOnMouseClicked(e->{
-			synchronized (boucle) {
-			boucle.notify();}
-		});
-		*/
-		
-		
-		
 	}
 	
 	
 	
 	
-	public void passer() {
+	private void passer() {
 		//TOUR DE SIMULATION : 
 		
 		

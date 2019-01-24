@@ -40,7 +40,7 @@ private VBox group;
 		
 		//messages initiaux:
 		
-		this.afficher("====< Début de la simulation >====", Color.CYAN);
+		this.afficher("====< Début de la simulation >====", Color.ORANGERED);
 		
 	}
 
