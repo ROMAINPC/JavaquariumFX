@@ -23,23 +23,57 @@ import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public class PoissonView extends ImageView{
+public class PoissonView extends StackPane{
 	
 	private final Random random = new Random();
 	private Timeline timeline;
-	private Pos positionCourante;
+	private Position positionCourante;
 	private double VITESSE; // px/ms
 	
+	private LabelInfo nom;
+	private LabelInfo genre;
+	
+	private Poisson poisson;
 	
 	
 	public PoissonView(Poisson poisson) {
 		
-		this.setImage(poisson.getImage());
 		
 		
+		this.poisson = poisson;
+		
+		//affichage:
+		ImageView vue = new ImageView(poisson.getImage());
+		
+		VBox infos = new VBox();
+		infos.setAlignment(Pos.CENTER);
+		
+		nom  = new LabelInfo();
+		genre  = new LabelInfo();
+		
+		infos.getChildren().addAll(nom, genre);
+		
+		
+		this.getChildren().addAll(vue,infos);
+		
+		updateViewInfo();
+		
+		
+		//bouton d'affichage des infos:
+		infos.setVisible(false);
+		this.setOnMouseEntered(e -> infos.setVisible(true));
+		this.setOnMouseExited(e -> infos.setVisible(false));
+		
+		
+		
+		
+		//animation:
 		positionCourante = getRandomPos();
 		this.setLayoutX(positionCourante.x);
 		this.setLayoutY(positionCourante.y);
@@ -48,16 +82,17 @@ public class PoissonView extends ImageView{
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
 		
-        VITESSE = 0.15;
+        VITESSE = 0.10;
         
+        //début du déplacement
         goProchainLieu();
 	}
 	
 	
-	private void goProchainLieu(Pos cible)
+	private void goProchainLieu(Position cible)
     {
 		
-		Pos prochain = null;
+		Position prochain = null;
 		if(cible == null) {
 			prochain = getRandomPos();
 		}
@@ -72,9 +107,9 @@ public class PoissonView extends ImageView{
 		positionCourante.y = this.getLayoutY();
 		
 		if(prochain.x > positionCourante.x) {
-			this.setScaleX(-1);
+			this.getChildren().get(0).setScaleX(-1);
 		}else {
-			this.setScaleX(1);
+			this.getChildren().get(0).setScaleX(1);
 		}
 		
 		
@@ -86,7 +121,7 @@ public class PoissonView extends ImageView{
         double distance = Math.sqrt((prochain.x - positionCourante.x) * (prochain.x - positionCourante.x) + (prochain.y - positionCourante.y) * (prochain.y - positionCourante.y));
         
         double t = distance / VITESSE;
-        VITESSE = 0.15;
+        VITESSE = 0.10;
         
         timeline.stop();
         timeline.getKeyFrames().clear();
@@ -110,32 +145,33 @@ public class PoissonView extends ImageView{
 	
 	
 	
-	private Pos getRandomPos()
+	private Position getRandomPos()
     {	
 		
         int x = random.nextInt( 530);//680 -150
         int y = random.nextInt( 400); //550 -100 -50
-        Pos p = new Pos();
+        Position p = new Position();
         p.x = x;
         p.y = y;
         return p;
     }
 
 
-    private class Pos
+    private class Position
     {
         double x;
         double y;
     }
 
-
+    
+    //fonction pour lancer une animation de "déplacement vers" du poisson
 	public void goTo(double x, double y) {
 		
 		
 		
 		timeline.stop();
 		VITESSE = 0.6;
-		Pos p = new Pos();
+		Position p = new Position();
 		p.x = x;
 		p.y = y;
 		goProchainLieu(p);
@@ -143,6 +179,11 @@ public class PoissonView extends ImageView{
 		
 	}
 	
+	
+	public void updateViewInfo() {
+		this.nom.setText(poisson.getNom());
+		this.genre.setText(poisson.getGenre().toString());
+	}
 	
 	
 }

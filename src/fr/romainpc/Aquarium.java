@@ -72,7 +72,7 @@ public class Aquarium extends Group{
 		ajouterPoisson("Bernard", Genre.MALE);
 		ajouterPoisson("Jean", Genre.MALE);
 		ajouterPoisson("Yvone", Genre.FEMELLE);
-		ajouterPoisson("Melodie", Genre.FEMELLE);
+		ajouterPoisson("Mélodie", Genre.FEMELLE);
 		ajouterPoisson("Baptiste", Genre.MALE);
 		ajouterPoisson("Johnson", Genre.MALE);
 		for(int i =0 ; i < 10;i++)
