@@ -16,52 +16,25 @@
  * 
  * Idée originale : SpaceFox
  ******************************************************************************/
-package fr.romainpc;
 
-import javafx.scene.image.Image;
+package fr.romainpc.etres_vivants;
 
-public class Poisson {
-	
-	private Image img;
-	private String nom;
-	private Genre sexe;
-	
-	public Poisson(String nom, Genre sexe) {
-		this.img = new Image("poisson.png");
-		this.nom = nom;
-		this.sexe = sexe;
-	}
+import java.util.Random;
 
-	public Image getImage() {
-		return img;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public String getNom() {
-		return nom;
-	}
+import javafx.scene.image.ImageView;
 
-
-	public Genre getGenre() {
-		return sexe;
-	}
-
+public class AlgueView extends ImageView{
 	
-	public String toString() {
+	public AlgueView(Algue algue) {
 		
-		return nom + " : " + sexe;
+		this.setImage(algue.getImage());
+		
+		this.setLayoutY(200); //550-350
+		
+		Random r = new Random();
+		this.setLayoutX(r.nextInt(480)); //680-200
+		
 		
 	}
-	
-	
-	
 	
 }

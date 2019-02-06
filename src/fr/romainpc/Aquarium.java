@@ -21,6 +21,16 @@ package fr.romainpc;
 import java.util.ArrayList;
 import java.util.Random;
 
+import fr.romainpc.etres_vivants.Algue;
+import fr.romainpc.etres_vivants.AlgueView;
+import fr.romainpc.etres_vivants.Bar;
+import fr.romainpc.etres_vivants.Carpe;
+import fr.romainpc.etres_vivants.Merou;
+import fr.romainpc.etres_vivants.Poisson;
+import fr.romainpc.etres_vivants.PoissonClown;
+import fr.romainpc.etres_vivants.PoissonView;
+import fr.romainpc.etres_vivants.Sole;
+import fr.romainpc.etres_vivants.Thon;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -69,12 +79,12 @@ public class Aquarium extends Group{
 		
 		//ajout des poissons:
 		
-		ajouterPoisson("Bernard", Genre.MALE);
-		ajouterPoisson("Jean", Genre.MALE);
-		ajouterPoisson("Yvone", Genre.FEMELLE);
-		ajouterPoisson("Mélodie", Genre.FEMELLE);
-		ajouterPoisson("Baptiste", Genre.MALE);
-		ajouterPoisson("Johnson", Genre.MALE);
+		ajouterPoisson("Bernard", Genre.MALE, Espece.BAR);
+		ajouterPoisson("Jean", Genre.MALE, Espece.CARPE);
+		ajouterPoisson("Yvone", Genre.FEMELLE, Espece.MEROU);
+		ajouterPoisson("Mélodie", Genre.FEMELLE, Espece.POISSON_CLOWN);
+		ajouterPoisson("Baptiste", Genre.MALE, Espece.SOLE);
+		ajouterPoisson("Johnson", Genre.MALE, Espece.THON);
 		for(int i =0 ; i < 10;i++)
 			ajouterAlgue();
 		
@@ -124,6 +134,8 @@ public class Aquarium extends Group{
 		
 		console.afficher("--< Tour " + tour + " >--", Color.DARKCYAN);
 		
+		for(int i = 0  ; i < poissonList.size() ; i++)
+			poissonList.get(i).manger();
 		
 		
 		console.afficher("Début déplacement", Color.YELLOW);
@@ -163,8 +175,19 @@ public class Aquarium extends Group{
 	
 	
 	
-	private void ajouterPoisson(String nom, Genre sexe) {
-		Poisson p = new Poisson(nom, sexe);
+	private void ajouterPoisson(String nom, Genre sexe, Espece race) {
+		Poisson p;
+		
+		switch(race) {
+			case MEROU : p = new Merou(nom, sexe); break;
+			case THON : p = new Thon(nom, sexe); break;
+			case POISSON_CLOWN : p = new PoissonClown(nom, sexe); break;
+			case BAR : p = new Bar(nom, sexe); break;
+			case CARPE : p = new Carpe(nom, sexe); break;
+			case SOLE : p = new Sole(nom, sexe); break;
+			default : p = new PoissonClown("DEFAUT", sexe);
+		}
+		
 		PoissonView pV = new PoissonView(p);
 		//random.nextInt((max - min) + 1) + min;
 		int n = random.nextInt((this.getChildren().size() - 1) + 1) + 1;

@@ -16,10 +16,12 @@
  * 
  * Idée originale : SpaceFox
  ******************************************************************************/
-package fr.romainpc;
+package fr.romainpc.etres_vivants;
 
 import java.util.Random;
 
+import fr.romainpc.LabelInfo;
+import fr.romainpc.Main;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;

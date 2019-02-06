@@ -16,41 +16,54 @@
  * 
  * Idée originale : SpaceFox
  ******************************************************************************/
+package fr.romainpc.etres_vivants;
 
-package fr.romainpc;
-
-import java.util.Random;
-
+import fr.romainpc.Genre;
 import javafx.scene.image.Image;
 
-public class Algue {
+public abstract class Poisson implements Mangeur{
 	
-private Image img;
+	private Image img;
+	private String nom;
+	private Genre sexe;
 	
-	public Algue() {
-		img = generateImage();
-	}
-	
-	
-
-	private Image generateImage() {
-		Random r = new Random();
-		int n = r.nextInt(3);
-		Image image = null;
-		
-		
-		if(n == 0)
-			image = new Image("algue1.png");
-		if(n == 1)
-			image = new Image("algue2.png");
-		if(n == 2)
-			image = new Image("algue3.png");
-		
-		return image;
+	public Poisson(String nom, Genre sexe) {
+		this.nom = nom;
+		this.sexe = sexe;
 	}
 
 	public Image getImage() {
 		return img;
 	}
+	
+	
+	
+	
+	
+	
+	
+	public void setImage(Image img) {
+		this.img = img;
+	}
+	
+	
+	public String getNom() {
+		return nom;
+	}
+
+
+	public Genre getGenre() {
+		return sexe;
+	}
+
+	
+	public String toString() {
+		
+		return nom + " : " + this.race() + " " + sexe;
+		
+	}
+	
+	abstract String race();
+	
 	
 }

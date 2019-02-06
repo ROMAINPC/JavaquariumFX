@@ -17,24 +17,40 @@
  * Idée originale : SpaceFox
  ******************************************************************************/
 
-package fr.romainpc;
+package fr.romainpc.etres_vivants;
 
 import java.util.Random;
 
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
-public class AlgueView extends ImageView{
+public class Algue {
 	
-	public AlgueView(Algue algue) {
-		
-		this.setImage(algue.getImage());
-		
-		this.setLayoutY(200); //550-350
-		
+private Image img;
+	
+	public Algue() {
+		img = generateImage();
+	}
+	
+	
+
+	private Image generateImage() {
 		Random r = new Random();
-		this.setLayoutX(r.nextInt(480)); //680-200
+		int n = r.nextInt(3);
+		Image image = null;
 		
 		
+		if(n == 0)
+			image = new Image("algue1.png");
+		if(n == 1)
+			image = new Image("algue2.png");
+		if(n == 2)
+			image = new Image("algue3.png");
+		
+		return image;
+	}
+
+	public Image getImage() {
+		return img;
 	}
 	
 }
