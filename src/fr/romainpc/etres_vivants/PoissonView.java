@@ -49,6 +49,7 @@ public class PoissonView extends StackPane{
 		
 		
 		this.poisson = poisson;
+		poisson.setPoissonView(this);
 		
 		//affichage:
 		ImageView vue = new ImageView(poisson.getImage());
@@ -181,11 +182,20 @@ public class PoissonView extends StackPane{
 		
 	}
 	
+	public void relancer() {
+		goProchainLieu();
+	}
+	public void arreter() {
+		timeline.stop();
+	}
 	
 	public void updateViewInfo() {
 		this.nom.setText(poisson.getNom());
 		this.genre.setText(poisson.getGenre().toString());
 	}
+
+
+	
 	
 	
 }

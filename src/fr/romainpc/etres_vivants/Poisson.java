@@ -26,10 +26,12 @@ public abstract class Poisson implements Mangeur{
 	private Image img;
 	private String nom;
 	private Genre sexe;
+	private PoissonView poissonView;
 	
 	public Poisson(String nom, Genre sexe) {
 		this.nom = nom;
 		this.sexe = sexe;
+		this.poissonView = null;
 	}
 
 	public Image getImage() {
@@ -55,6 +57,14 @@ public abstract class Poisson implements Mangeur{
 	public Genre getGenre() {
 		return sexe;
 	}
+	
+	public PoissonView getPoissonView() {
+		return poissonView;
+	}
+	
+	public void setPoissonView(PoissonView poissonView) {
+		this.poissonView = poissonView;
+	}
 
 	
 	public String toString() {
@@ -62,6 +72,7 @@ public abstract class Poisson implements Mangeur{
 		return nom + " : " + this.race() + " " + sexe;
 		
 	}
+	
 	
 	abstract String race();
 	

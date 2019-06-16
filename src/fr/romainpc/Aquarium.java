@@ -19,6 +19,7 @@
 package fr.romainpc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import fr.romainpc.etres_vivants.Algue;
@@ -31,6 +32,7 @@ import fr.romainpc.etres_vivants.PoissonClown;
 import fr.romainpc.etres_vivants.PoissonView;
 import fr.romainpc.etres_vivants.Sole;
 import fr.romainpc.etres_vivants.Thon;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,10 +49,10 @@ public class Aquarium extends Group{
 	public Thread boucle;
 	
 	
-	private ArrayList<PoissonView> poissonViewList = new ArrayList<PoissonView>();
-	private ArrayList<Poisson> poissonList = new ArrayList<Poisson>();
-	private ArrayList<AlgueView> algueViewList = new ArrayList<AlgueView>();
-	private ArrayList<Algue> algueList = new ArrayList<Algue>();
+	public ArrayList<PoissonView> poissonViewList = new ArrayList<PoissonView>();
+	public ArrayList<Poisson> poissonList = new ArrayList<Poisson>();
+	public ArrayList<AlgueView> algueViewList = new ArrayList<AlgueView>();
+	public ArrayList<Algue> algueList = new ArrayList<Algue>();
 	
 	
 	public Aquarium() {
@@ -88,7 +90,11 @@ public class Aquarium extends Group{
 		for(int i =0 ; i < 10;i++)
 			ajouterAlgue();
 		
-		
+		console.afficher("Au début il y a :", Color.CYAN);
+		console.afficher(algueList.size() + " Algues,", Color.GREEN);
+		console.afficher("et " + poissonList.size() + " Poissons :", Color.GREEN);
+		for(int i = 0 ; i < poissonList.size() ; i++)
+			console.afficher(poissonList.get(i).toString(), Color.GREEN);
 		
 		
 		Aquarium aqua = this;
@@ -109,7 +115,7 @@ public class Aquarium extends Group{
 					
 					//affichage fin de tour:
 					
-					console.afficher("A la fin du tour " + (tour-1), Color.CYAN);
+					//console.afficher("A la fin du tour " + (tour-1), Color.CYAN);
 					console.afficher("Il reste :", Color.CYAN);
 					console.afficher(algueList.size() + " Algues,", Color.GREEN);
 					console.afficher("et " + poissonList.size() + " Poissons :", Color.GREEN);
@@ -134,17 +140,19 @@ public class Aquarium extends Group{
 		
 		console.afficher("--< Tour " + tour + " >--", Color.DARKCYAN);
 		
-		for(int i = 0  ; i < poissonList.size() ; i++)
-			poissonList.get(i).manger();
+		
+		for(int i = 0  ; i < poissonList.size() ; i++) {
+			if(poissonList.get(i) != null)
+				poissonList.get(i).manger();
+		}
+		nettoyerMorts();
+
 		
 		
-		console.afficher("Début déplacement", Color.YELLOW);
 		
-		
+		//console.afficher("Début déplacement", Color.YELLOW);
 		poissonViewList.get((int) tour%poissonList.size()).goTo(0,0); threadPause();
-		
-		
-		console.afficher("retour à la normale", Color.YELLOW);
+		//console.afficher("retour à la normale", Color.YELLOW);
 		
 		
 		
@@ -160,7 +168,14 @@ public class Aquarium extends Group{
 	
 	
 	
-	private void threadPause() {
+	private void nettoyerMorts() {
+		poissonList.removeAll(Collections.singleton(null));
+		poissonViewList.removeAll(Collections.singleton(null));
+	}
+
+
+
+	public void threadPause() {
 		try {
 			synchronized (boucle) {
 				boucle.wait();
@@ -204,7 +219,45 @@ public class Aquarium extends Group{
 		algueList.add(a);
 		algueViewList.add(aV);
 	}
+
+
+
+	public void supprimerAlgue(int i) {
+		
+		
+		AlgueView cibleV = algueViewList.get(i);
+		
+		algueList.remove(i);
+		algueViewList.remove(i);
+		
+		Aquarium aqua = this;
+		Platform.runLater(new Runnable() {
+			public void run() {
+				aqua.getChildren().remove(cibleV);
+			}
+		});
+		
+		
+		
+	}
+
+
+	public void supprimerPoisson(int i) {
+		PoissonView cibleV = poissonViewList.get(i);
+		cibleV.arreter();
+		
+		poissonList.set(i, null);
+		poissonViewList.set(i, null);
+		
+		Aquarium aqua = this;
+		Platform.runLater(new Runnable() {
+			public void run() {
+				aqua.getChildren().remove(cibleV);
+			}
+		});
+	}
+
 	
-	
+
 	
 }

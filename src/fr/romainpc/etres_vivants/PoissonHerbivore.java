@@ -1,5 +1,8 @@
 package fr.romainpc.etres_vivants;
 
+import java.util.Random;
+
+import fr.romainpc.Aquarium;
 import fr.romainpc.Genre;
 import fr.romainpc.Main;
 import javafx.scene.paint.Color;
@@ -13,7 +16,25 @@ public abstract class PoissonHerbivore extends Poisson implements Mangeur{
 	@Override
 	public void manger() {
 		
-		Main.getConsole().afficher("Je suis " + this.getNom() + " et je mange des algues", Color.DARKRED);
+		
+		Aquarium aqua = Main.getAqua();
+		
+		if(aqua.algueList.size() > 0) {
+			Random r = new Random();
+			int i = r.nextInt(aqua.algueList.size());
+			
+			this.getPoissonView().goTo(aqua.algueViewList.get(i).getLayoutX(), aqua.algueViewList.get(i).getLayoutY() + 150);
+			aqua.threadPause();
+			
+			aqua.supprimerAlgue(i);
+			
+			
+			Main.getConsole().afficher(this.getNom() + " a mangé une algue.", Color.DARKRED);
+			return;
+		}
+		
+		
+		Main.getConsole().afficher(this.getNom() + " n'a plus rien à manger.", Color.DARKRED);
 		
 	}
 
