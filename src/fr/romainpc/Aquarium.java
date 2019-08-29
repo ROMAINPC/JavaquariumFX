@@ -44,7 +44,9 @@ public class Aquarium extends Group{
 	
 	private Console console;
 	private long tour;
+	private long lastTime;
 	public boolean execution;
+	public boolean pause;
 	
 	public Thread boucle;
 	
@@ -53,6 +55,8 @@ public class Aquarium extends Group{
 	public ArrayList<Poisson> poissonList = new ArrayList<Poisson>();
 	public ArrayList<AlgueView> algueViewList = new ArrayList<AlgueView>();
 	public ArrayList<Algue> algueList = new ArrayList<Algue>();
+
+	
 	
 	
 	public Aquarium() {
@@ -70,7 +74,7 @@ public class Aquarium extends Group{
 		
 		tour = 1;
 		execution = true;
-		
+		pause = false;
 		
 	}
 	
@@ -87,7 +91,7 @@ public class Aquarium extends Group{
 		ajouterPoisson("Mélodie", Genre.FEMELLE, Espece.POISSON_CLOWN);
 		ajouterPoisson("Baptiste", Genre.MALE, Espece.SOLE);
 		ajouterPoisson("Johnson", Genre.MALE, Espece.THON);
-		for(int i =0 ; i < 10;i++)
+		for(int i = 0 ; i < 2;i++)
 			ajouterAlgue();
 		
 		console.afficher("Au début il y a :", Color.CYAN);
@@ -104,12 +108,10 @@ public class Aquarium extends Group{
 			public void run() {
 				
 				while(execution && !(poissonList.isEmpty() && algueList.isEmpty())) {
-					
-					
-					
-					
-					
-					
+				
+					if(pause) {
+						threadPause();
+					}
 					aqua.passer();
 					
 					
@@ -121,6 +123,17 @@ public class Aquarium extends Group{
 					console.afficher("et " + poissonList.size() + " Poissons :", Color.GREEN);
 					for(int i = 0 ; i < poissonList.size() ; i++)
 						console.afficher(poissonList.get(i).toString(), Color.GREEN);
+					
+					
+					try {
+						long duration = System.currentTimeMillis() - lastTime;
+						Thread.sleep(duration < 500 ? 500-duration : 0);
+						lastTime = System.currentTimeMillis();	
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+					
 				}
 				
 				console.afficher("====< Fin de la simulation >====", Color.ORANGERED);
@@ -141,27 +154,29 @@ public class Aquarium extends Group{
 		console.afficher("--< Tour " + tour + " >--", Color.DARKCYAN);
 		
 		
+		//faim des poissons:
+		for(Poisson poisson : poissonList) {
+			poisson.addVie(-1);
+		}
+		//manger:
 		for(int i = 0  ; i < poissonList.size() ; i++) {
 			if(poissonList.get(i) != null)
-				poissonList.get(i).manger();
+				if(poissonList.get(i).vie() <= 5)
+					poissonList.get(i).manger();
 		}
 		nettoyerMorts();
-
+		
+		//pousse des algues:
+		for(Algue algue : algueList) {
+				algue.addVie(1);
+		}
 		
 		
-		
-		//console.afficher("Début déplacement", Color.YELLOW);
-		poissonViewList.get((int) tour%poissonList.size()).goTo(0,0); threadPause();
-		//console.afficher("retour à la normale", Color.YELLOW);
 		
 		
 		
 		
 		tour++;
-		
-		
-		
-		
 	}
 	
 	
@@ -256,6 +271,7 @@ public class Aquarium extends Group{
 			}
 		});
 	}
+
 
 	
 

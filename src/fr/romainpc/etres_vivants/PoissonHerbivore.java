@@ -26,7 +26,9 @@ public abstract class PoissonHerbivore extends Poisson implements Mangeur{
 			this.getPoissonView().goTo(aqua.algueViewList.get(i).getLayoutX(), aqua.algueViewList.get(i).getLayoutY() + 150);
 			aqua.threadPause();
 			
-			aqua.supprimerAlgue(i);
+			aqua.algueList.get(i).addVie(-2);
+			this.addVie(3);
+			
 			
 			
 			Main.getConsole().afficher(this.getNom() + " a mangé une algue.", Color.DARKRED);

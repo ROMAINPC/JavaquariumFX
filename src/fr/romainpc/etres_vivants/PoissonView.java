@@ -40,6 +40,7 @@ public class PoissonView extends StackPane{
 	
 	private LabelInfo nom;
 	private LabelInfo genre;
+	private LabelInfo vie;
 	
 	private Poisson poisson;
 	
@@ -59,8 +60,10 @@ public class PoissonView extends StackPane{
 		
 		nom  = new LabelInfo();
 		genre  = new LabelInfo();
+		vie  = new LabelInfo();
 		
-		infos.getChildren().addAll(nom, genre);
+		
+		infos.getChildren().addAll(nom, genre, vie);
 		
 		
 		this.getChildren().addAll(vue,infos);
@@ -124,6 +127,8 @@ public class PoissonView extends StackPane{
         double distance = Math.sqrt((prochain.x - positionCourante.x) * (prochain.x - positionCourante.x) + (prochain.y - positionCourante.y) * (prochain.y - positionCourante.y));
         
         double t = distance / VITESSE;
+        if(t < 1) t = 1;//évite les freeze si le poisson est déjà à l'endroit précis, car pour t = 0, la keyframe n'est pas exécutée
+        
         VITESSE = 0.10;
         
         timeline.stop();
@@ -170,8 +175,6 @@ public class PoissonView extends StackPane{
     //fonction pour lancer une animation de "déplacement vers" du poisson
 	public void goTo(double x, double y) {
 		
-		
-		
 		timeline.stop();
 		VITESSE = 0.6;
 		Position p = new Position();
@@ -192,6 +195,7 @@ public class PoissonView extends StackPane{
 	public void updateViewInfo() {
 		this.nom.setText(poisson.getNom());
 		this.genre.setText(poisson.getGenre().toString());
+		this.vie.setText(Integer.toString(poisson.vie()));
 	}
 
 

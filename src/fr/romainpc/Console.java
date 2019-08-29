@@ -35,7 +35,7 @@ private VBox group;
 		group.setPadding(new Insets(10,10,10,10));
 		this.setContent(group);
 		this.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		this.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		this.setHbarPolicy(ScrollBarPolicy.NEVER);
 		
 		
 		//messages initiaux:

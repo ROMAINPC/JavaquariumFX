@@ -10,11 +10,13 @@ public class LabelInfo extends Label{
 	
 	
 	public LabelInfo() {
-		this.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, null, null)));
-		this.setFont(Font.font(12));
-		this.setTextFill(Color.WHITE);
+		this(Color.SLATEBLUE, 12);
 	}
 
-	
+	public LabelInfo(Color background, int fontSize) {
+		this.setBackground(new Background(new BackgroundFill(background, null, null)));
+		this.setFont(Font.font(fontSize));
+		this.setTextFill(Color.WHITE);
+	}
 	
 }

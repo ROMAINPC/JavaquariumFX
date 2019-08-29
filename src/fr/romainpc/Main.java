@@ -20,9 +20,12 @@ package fr.romainpc;
 
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -30,6 +33,7 @@ public class Main extends Application {
 	
 	private static Console console;
 	private static Aquarium aquarium;
+	private static boolean pause;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -48,17 +52,42 @@ public class Main extends Application {
 			console.setPrefSize(300, 540);
 			root.setRight(console);
 			
+			
+			
 			//aquarium
+			
+			
 			aquarium = new Aquarium();
-			root.setLeft(aquarium);
+			LabelInfo pauseLabel = new LabelInfo(Color.RED, 42);
+			pauseLabel.setText("PAUSE");
+			pauseLabel.setLayoutX(20);
+			pauseLabel.setLayoutY(20);
+			pauseLabel.setVisible(false);
 			
+			scene.setOnKeyPressed(ke->{
+				
+				if(ke.getCode().equals(KeyCode.SPACE)) {
+						pause = pause ? false : true;
+						pauseLabel.setVisible(pause);
+						aquarium.pause = pause;
+						if(!pause) {
+							synchronized(aquarium.boucle) {
+								aquarium.boucle.notify();
+							}
+								
+						}
+						
+				}
+			});
 			
-			
-			
+			pause = false;
 			aquarium.launch();
 			
-			 
+			Group aquariumPart = new Group();
+
+			aquariumPart.getChildren().addAll(aquarium, pauseLabel);
 			
+			root.setLeft(aquariumPart);
 			
 			
 			
@@ -71,6 +100,7 @@ public class Main extends Application {
 			
 			primaryStage.setOnCloseRequest(e -> {
 				aquarium.execution = false;
+				aquarium.pause =  false;
 				aquarium.boucle.interrupt();
 			});
 			

@@ -21,20 +21,64 @@ package fr.romainpc.etres_vivants;
 
 import java.util.Random;
 
+import fr.romainpc.LabelInfo;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
-public class AlgueView extends ImageView{
+public class AlgueView extends StackPane{
+	
+	
+	private LabelInfo vie;
+	
+	private Algue algue;
+	
+	private ImageView vue;
 	
 	public AlgueView(Algue algue) {
 		
-		this.setImage(algue.getImage());
+		this.algue = algue;
+		algue.setAlgueView(this);
 		
 		this.setLayoutY(200); //550-350
-		
 		Random r = new Random();
 		this.setLayoutX(r.nextInt(480)); //680-200
+
+		vue = new ImageView(algue.getImage());
 		
 		
+		VBox infos = new VBox();
+		infos.setAlignment(Pos.CENTER);
+		infos.setTranslateY(150);
+		
+		vie  = new LabelInfo();
+		
+		infos.getChildren().addAll(vie);
+		
+
+		this.getChildren().addAll(vue,infos);
+		
+		updateViewInfo();
+		
+		
+		//bouton d'affichage des infos:
+		infos.setVisible(false);
+		this.setOnMouseEntered(e -> infos.setVisible(true));
+		this.setOnMouseExited(e -> infos.setVisible(false));
 	}
+	
+	
+	public void updateViewInfo() {
+		vie.setText(Integer.toString(algue.vie()) + " PV");
+		double scale = 0.5 + algue.vie() * 0.05;
+		if(scale > 1.5) {
+			scale = 1.5;
+		}
+		vue.setScaleY(scale);
+		vue.setTranslateY((350 - 350*scale)/2);
+	}
+	
+	
 	
 }

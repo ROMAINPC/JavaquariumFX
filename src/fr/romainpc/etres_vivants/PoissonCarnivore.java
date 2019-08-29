@@ -30,15 +30,23 @@ public abstract class PoissonCarnivore  extends Poisson implements Mangeur{
 				
 				i = r.nextInt(aqua.poissonList.size());
 				
-			}while(aqua.poissonList.get(i) == this || aqua.poissonList.get(i) == null);
+			}while(aqua.poissonList.get(i) == null);
+			
+			
+			if(aqua.poissonList.get(i) == this || aqua.poissonList.get(i).getClass().getName().equals(this.getClass().getName())) {
+				Main.getConsole().afficher(this.getNom() + " n'a rien trouvé à manger.", Color.DARKRED);
+				return;
+			}
 			
 			String nom = aqua.poissonList.get(i).getNom();
 			
 			aqua.poissonList.get(i).getPoissonView().arreter();
 			this.getPoissonView().goTo(aqua.poissonViewList.get(i).getLayoutX(), aqua.poissonViewList.get(i).getLayoutY());
 			aqua.threadPause();
+			aqua.poissonList.get(i).getPoissonView().relancer();
 			
-			aqua.supprimerPoisson(i);
+			aqua.poissonList.get(i).addVie(-4);
+			this.addVie(5);
 			
 			
 			Main.getConsole().afficher(this.getNom() + " a mangé " + nom + ".", Color.DARKRED);

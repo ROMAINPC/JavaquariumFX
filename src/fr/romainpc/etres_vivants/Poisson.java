@@ -19,6 +19,8 @@
 package fr.romainpc.etres_vivants;
 
 import fr.romainpc.Genre;
+import fr.romainpc.Main;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 public abstract class Poisson implements Mangeur{
@@ -27,19 +29,35 @@ public abstract class Poisson implements Mangeur{
 	private String nom;
 	private Genre sexe;
 	private PoissonView poissonView;
+	private int vie;
 	
 	public Poisson(String nom, Genre sexe) {
 		this.nom = nom;
 		this.sexe = sexe;
 		this.poissonView = null;
+		this.vie = 10; 
 	}
 
 	public Image getImage() {
 		return img;
 	}
 	
+	public int vie() {
+		return vie;
+	}
 	
-	
+	public void addVie(int n) {
+		vie += n;
+		if(vie <= 0) {//cas de décès
+			Main.getAqua().supprimerPoisson(Main.getAqua().poissonList.indexOf(this));
+		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				poissonView.updateViewInfo();
+			}
+		});
+		
+	}
 	
 	
 	
@@ -69,7 +87,7 @@ public abstract class Poisson implements Mangeur{
 	
 	public String toString() {
 		
-		return nom + " : " + this.race() + " " + sexe;
+		return nom + " : " + this.race() + " " + sexe + "(" + vie +")";
 		
 	}
 	

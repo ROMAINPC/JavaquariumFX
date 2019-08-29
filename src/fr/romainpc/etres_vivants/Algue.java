@@ -21,14 +21,21 @@ package fr.romainpc.etres_vivants;
 
 import java.util.Random;
 
+import fr.romainpc.Main;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 public class Algue {
 	
-private Image img;
+	private Image img;
+	private int vie;
+	private AlgueView algueView;
+
 	
 	public Algue() {
 		img = generateImage();
+		vie = 10;
+		algueView = null;
 	}
 	
 	
@@ -51,6 +58,35 @@ private Image img;
 
 	public Image getImage() {
 		return img;
+	}
+	
+	public int vie() {
+		return vie;
+	}
+
+
+
+	public void addVie(int n) {
+		vie += n;
+		if(vie <= 0) {//cas de décès
+			Main.getAqua().supprimerAlgue(Main.getAqua().algueList.indexOf(this));
+		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				algueView.updateViewInfo();
+			}
+		});
+		
+	}
+	
+	
+	
+	public AlgueView getAlgueView() {
+		return algueView;
+	}
+	
+	public void setAlgueView(AlgueView algueView) {
+		this.algueView = algueView;
 	}
 	
 }
