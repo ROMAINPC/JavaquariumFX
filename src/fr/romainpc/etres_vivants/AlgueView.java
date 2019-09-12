@@ -31,6 +31,7 @@ public class AlgueView extends StackPane{
 	
 	
 	private LabelInfo vie;
+	private LabelInfo age;
 	
 	private Algue algue;
 	
@@ -53,8 +54,9 @@ public class AlgueView extends StackPane{
 		infos.setTranslateY(150);
 		
 		vie  = new LabelInfo();
+		age  = new LabelInfo();
 		
-		infos.getChildren().addAll(vie);
+		infos.getChildren().addAll(vie, age);
 		
 
 		this.getChildren().addAll(vue,infos);
@@ -70,7 +72,8 @@ public class AlgueView extends StackPane{
 	
 	
 	public void updateViewInfo() {
-		vie.setText(Integer.toString(algue.vie()) + " PV");
+		vie.setText(Integer.toString(algue.vie()) + "PV");
+		age.setText(Integer.toString(algue.age()) + "tr");
 		double scale = 0.5 + algue.vie() * 0.05;
 		if(scale > 1.5) {
 			scale = 1.5;

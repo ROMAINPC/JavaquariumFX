@@ -9,8 +9,8 @@ import javafx.scene.paint.Color;
 
 public abstract class PoissonHerbivore extends Poisson implements Mangeur{
 
-	public PoissonHerbivore(String nom, Genre sexe) {
-		super(nom, sexe);
+	public PoissonHerbivore(String nom, Genre sexe, int age) {
+		super(nom, sexe, age);
 	}
 
 	@Override

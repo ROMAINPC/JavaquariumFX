@@ -22,6 +22,7 @@ import fr.romainpc.Genre;
 import fr.romainpc.Main;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public abstract class Poisson implements Mangeur{
 	
@@ -30,12 +31,16 @@ public abstract class Poisson implements Mangeur{
 	private Genre sexe;
 	private PoissonView poissonView;
 	private int vie;
+	private int age;
 	
-	public Poisson(String nom, Genre sexe) {
+	public Poisson(String nom, Genre sexe, int age) {
 		this.nom = nom;
 		this.sexe = sexe;
 		this.poissonView = null;
 		this.vie = 10; 
+		if(age < 0 || age > 20)//sécurité
+			age = 0;
+		this.age = age;
 	}
 
 	public Image getImage() {
@@ -49,6 +54,7 @@ public abstract class Poisson implements Mangeur{
 	public void addVie(int n) {
 		vie += n;
 		if(vie <= 0) {//cas de décès
+			Main.getConsole().afficher(nom + " n'a plus de vie", Color.ORANGE);
 			Main.getAqua().supprimerPoisson(Main.getAqua().poissonList.indexOf(this));
 		}
 		Platform.runLater(new Runnable() {
@@ -59,7 +65,23 @@ public abstract class Poisson implements Mangeur{
 		
 	}
 	
+	public int age() {
+		return age;
+	}
 	
+	public void addAge(int n) {
+		age += n;
+		if(age > 20) {//cas de décès
+			Main.getConsole().afficher(nom + " est mort de vieillesse", Color.ORANGE);
+			Main.getAqua().supprimerPoisson(Main.getAqua().poissonList.indexOf(this));
+		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				poissonView.updateViewInfo();
+			}
+		});
+		
+	}
 	
 	
 	public void setImage(Image img) {
@@ -87,7 +109,7 @@ public abstract class Poisson implements Mangeur{
 	
 	public String toString() {
 		
-		return nom + " : " + this.race() + " " + sexe + "(" + vie +")";
+		return nom + " : " + this.race() + " " + sexe + "(" + vie +")("+ age + ")";
 		
 	}
 	

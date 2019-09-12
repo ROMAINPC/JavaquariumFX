@@ -29,13 +29,21 @@ public class Algue {
 	
 	private Image img;
 	private int vie;
+	private int age;
 	private AlgueView algueView;
 
 	
 	public Algue() {
+		this(0);
+	}
+	
+	public Algue(int age) {
 		img = generateImage();
 		vie = 10;
 		algueView = null;
+		if(age < 0 || age > 20)//sécurité
+			age = 0;
+		this.age = age;
 	}
 	
 	
@@ -77,6 +85,26 @@ public class Algue {
 			}
 		});
 		
+	}
+	
+	public int age() {
+		return age;
+	}
+
+
+
+	public boolean addAge(int n) {
+		age += n;
+		if(age > 20) {//cas de décès
+			Main.getAqua().supprimerAlgue(Main.getAqua().algueList.indexOf(this));
+			return true;
+		}
+		Platform.runLater(new Runnable() {
+			public void run() {
+				algueView.updateViewInfo();
+			}
+		});
+		return false;
 	}
 	
 	

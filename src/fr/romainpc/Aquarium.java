@@ -85,14 +85,14 @@ public class Aquarium extends Group{
 		
 		//ajout des poissons:
 		
-		ajouterPoisson("Bernard", Genre.MALE, Espece.BAR);
-		ajouterPoisson("Jean", Genre.MALE, Espece.CARPE);
-		ajouterPoisson("Yvone", Genre.FEMELLE, Espece.MEROU);
-		ajouterPoisson("Mélodie", Genre.FEMELLE, Espece.POISSON_CLOWN);
-		ajouterPoisson("Baptiste", Genre.MALE, Espece.SOLE);
-		ajouterPoisson("Johnson", Genre.MALE, Espece.THON);
-		for(int i = 0 ; i < 2;i++)
-			ajouterAlgue();
+		ajouterPoisson(new Bar("Bernard", Genre.MALE, 5));
+		ajouterPoisson(new Carpe("Jean", Genre.MALE, 5));
+		ajouterPoisson(new Merou("Yvone", Genre.FEMELLE,15));
+		ajouterPoisson(new PoissonClown("Mélodie", Genre.FEMELLE, 10));
+		ajouterPoisson(new Sole("Baptiste", Genre.MALE));
+		ajouterPoisson(new Thon("Johnson", Genre.MALE));
+		for(int i = 0 ; i < 4; i++)
+			ajouterAlgue(new Algue());
 		
 		console.afficher("Au début il y a :", Color.CYAN);
 		console.afficher(algueList.size() + " Algues,", Color.GREEN);
@@ -175,6 +175,18 @@ public class Aquarium extends Group{
 		
 		
 		
+		//vieillissement:
+		for(int i = 0  ; i < poissonList.size() ; i++) {
+			poissonList.get(i).addAge(1);
+		}
+		nettoyerMorts();
+		
+		for(int i = 0  ; i < algueList.size() ; i++) {
+			if(algueList.get(i).addAge(1)) {
+				i--;
+			}
+		}
+		
 		
 		tour++;
 	}
@@ -205,29 +217,19 @@ public class Aquarium extends Group{
 	
 	
 	
-	private void ajouterPoisson(String nom, Genre sexe, Espece race) {
-		Poisson p;
-		
-		switch(race) {
-			case MEROU : p = new Merou(nom, sexe); break;
-			case THON : p = new Thon(nom, sexe); break;
-			case POISSON_CLOWN : p = new PoissonClown(nom, sexe); break;
-			case BAR : p = new Bar(nom, sexe); break;
-			case CARPE : p = new Carpe(nom, sexe); break;
-			case SOLE : p = new Sole(nom, sexe); break;
-			default : p = new PoissonClown("DEFAUT", sexe);
-		}
-		
+	private void ajouterPoisson(Poisson p) {
+
 		PoissonView pV = new PoissonView(p);
 		//random.nextInt((max - min) + 1) + min;
 		int n = random.nextInt((this.getChildren().size() - 1) + 1) + 1;
 		this.getChildren().add(n, pV);
 		poissonList.add(p);
 		poissonViewList.add(pV);
+		
+		
 	}
 	
-	private void ajouterAlgue() {
-		Algue a = new Algue();
+	private void ajouterAlgue(Algue a) {
 		AlgueView aV = new AlgueView(a);
 		int n = random.nextInt((this.getChildren().size() - 1) + 1) + 1;
 		this.getChildren().add(n, aV);

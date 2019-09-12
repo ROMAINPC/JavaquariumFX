@@ -6,7 +6,11 @@ import javafx.scene.image.Image;
 public class Sole extends PoissonHerbivore{
 
 	public Sole(String nom, Genre sexe) {
-		super(nom, sexe);
+		this(nom, sexe, 0);
+	}
+	
+	public Sole(String nom, Genre sexe, int age) {
+		super(nom, sexe, age);
 		this.setImage( new Image("sole.png"));
 	}
 

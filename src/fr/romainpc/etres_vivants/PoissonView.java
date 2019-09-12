@@ -41,6 +41,7 @@ public class PoissonView extends StackPane{
 	private LabelInfo nom;
 	private LabelInfo genre;
 	private LabelInfo vie;
+	private LabelInfo age;
 	
 	private Poisson poisson;
 	
@@ -61,9 +62,10 @@ public class PoissonView extends StackPane{
 		nom  = new LabelInfo();
 		genre  = new LabelInfo();
 		vie  = new LabelInfo();
+		age  = new LabelInfo();
 		
 		
-		infos.getChildren().addAll(nom, genre, vie);
+		infos.getChildren().addAll(nom, genre, vie, age);
 		
 		
 		this.getChildren().addAll(vue,infos);
@@ -195,7 +197,8 @@ public class PoissonView extends StackPane{
 	public void updateViewInfo() {
 		this.nom.setText(poisson.getNom());
 		this.genre.setText(poisson.getGenre().toString());
-		this.vie.setText(Integer.toString(poisson.vie()));
+		this.vie.setText(Integer.toString(poisson.vie())+"PV");
+		this.age.setText(Integer.toString(poisson.age())+"tr");
 	}
 
 

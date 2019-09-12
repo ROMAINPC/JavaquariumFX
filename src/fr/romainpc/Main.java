@@ -66,7 +66,7 @@ public class Main extends Application {
 			
 			scene.setOnKeyPressed(ke->{
 				
-				if(ke.getCode().equals(KeyCode.SPACE)) {
+				if(ke.getCode().equals(KeyCode.P)) {
 						pause = pause ? false : true;
 						pauseLabel.setVisible(pause);
 						aquarium.pause = pause;
